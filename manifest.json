@@ -1,0 +1,10 @@
+{
+	"id": "obsidian-task-manager",
+	"name": "Task Manager",
+	"version": "0.0.1",
+	"minAppVersion": "0.15.0",
+	"description": "Create and manage task via obsidian markdown.",
+	"author": "maybetm",
+	"authorUrl": "https://github.com/maybetm",
+	"isDesktopOnly": false
+}
