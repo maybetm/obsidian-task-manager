@@ -1,8 +1,56 @@
-/*
+/* Основные стили формы */
+.task-form {
+	--form-spacing: 1.2em;
+	display: flex;
+	flex-direction: column;
+	gap: var(--form-spacing);
+	padding: 10px 0;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+/* Контейнер для каждого поля */
+.form-field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4em;
+}
 
-If your plugin does not need CSS, delete this file.
+/* Метки */
+.form-label {
+	font-size: var(--font-ui-small);
+	font-weight: 600;
+	color: var(--text-normal);
+}
 
-*/
+/* Общие стили для полей ввода */
+.form-input,
+.form-textarea {
+	padding: 8px 12px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	background-color: var(--background-primary);
+	color: var(--text-normal);
+	font-size: var(--font-ui-medium);
+}
+
+/* Специфичные стили для textarea */
+.form-textarea {
+	resize: vertical;
+	min-height: 100px;
+}
+
+/* Контейнер для кнопок */
+.form-actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 0.8em;
+	padding-top: 1.2em;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+/* Состояния полей */
+.form-input:focus,
+.form-textarea:focus {
+	outline: none;
+	border-color: var(--interactive-accent);
+	box-shadow: 0 0 0 2px var(--background-modifier-border-hover);
+}

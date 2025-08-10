@@ -15,8 +15,8 @@ export default class TaskManagerPlugin extends Plugin {
 			(leaf) => new ExampleView(leaf)
 		);
 
-		this.addRibbonIcon('dice', 'Create task', () => {
-			new CreateTaskModal(this.app).open()
+		this.addRibbonIcon('notebook-pen', 'Create task', () => {
+			new CreateTaskModal(this.app, this).open()
 		});
 
 		this.addSettingTab(new TaskManagerSettingsTab(this.app, this));
