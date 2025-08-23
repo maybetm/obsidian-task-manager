@@ -1,19 +1,12 @@
 import {Plugin} from "obsidian";
 import {DEFAULT_SETTINGS, TaskManagerSettings, TaskManagerSettingsTab} from "./settings/settings";
-import CreateTaskModal from "./modal/create_task_modal";
-import {ExampleView, VIEW_TYPE_EXAMPLE} from "./modal/test_view";
+import CreateTaskModal from "./modal/create_task";
 
 export default class TaskManagerPlugin extends Plugin {
-
 	settings: TaskManagerSettings
 
 	async onload() {
 		this.settings = await this.initSettings()
-
-		this.registerView(
-			VIEW_TYPE_EXAMPLE,
-			(leaf) => new ExampleView(leaf)
-		);
 
 		this.addRibbonIcon('notebook-pen', 'Create task', () => {
 			new CreateTaskModal(this.app, this).open()
