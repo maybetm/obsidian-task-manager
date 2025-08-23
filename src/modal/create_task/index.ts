@@ -1,23 +1,15 @@
-import {App, ButtonComponent, Modal, TextAreaComponent, TextComponent, TFile} from "obsidian";
+import {App, ButtonComponent, Modal, TextAreaComponent, TextComponent} from "obsidian";
 import TaskManagerPlugin from "../../main";
-import {createTask} from "./create_task";
-
-export interface CreateTaskModalData {
-	title: string;
-}
-
-const DEFAULT_CREATE_TASK_MODAL_DATA: CreateTaskModalData = {
-	title: '',
-}
+import {createTask} from "../../services/create_task";
 
 export default class CreateTaskModal extends Modal {
 	private plugin: TaskManagerPlugin;
-	private createTaskModalData: CreateTaskModalData;
+	private title: string;
+	private tags: string[] = [];
 
 	constructor(app: App, plugin: TaskManagerPlugin) {
 		super(app);
 		this.plugin = plugin;
-		this.createTaskModalData = DEFAULT_CREATE_TASK_MODAL_DATA
 	}
 
 	onOpen() {
@@ -41,7 +33,7 @@ export default class CreateTaskModal extends Modal {
 				component.inputEl.classList.add('form-input');
 			})
 			.onChange(async value => {
-				this.createTaskModalData.title = value
+				this.title = value
 			});
 
 		const descContainer = form.createDiv({cls: 'form-field'});
@@ -77,8 +69,19 @@ export default class CreateTaskModal extends Modal {
 		new ButtonComponent(buttonContainer)
 			.setButtonText('Save')
 			.setCta()
-			.onClick(() => createTask(this.createTaskModalData, this.app, this.plugin)
-				.then(value => this.close()));
+			.onClick(() => {
+				createTask({
+						title: this.title,
+						tags: this.tags,
+					},
+					this.app,
+					this.plugin
+				)
+					.then(value => {
+						this.close();
+						return this.app.workspace.getLeaf(false).openFile(value)
+					})
+			});
 	}
 }
 

@@ -1,14 +1,13 @@
-import {UUID} from "node:crypto";
+import {UUID} from "crypto";
 
 export interface Task {
 	id: UUID
 	title: string;
 	status: string;
 	priority: string;
-	path: string;
 	tags?: string[];
-	linkedTasks?: string[];
+	linkedTasks?: UUID[];
 	completedTime?: Date; // Date (YYYY-MM-DD) when task was marked as done
-	dateCreated: Date; // Creation date (ISO timestamp)
-	dateModified: Date; // Last modification date (ISO timestamp)
+	dateCreated: string; // Creation date (ISO timestamp)
+	dateModified: string // Last modification date (ISO timestamp)
 }
