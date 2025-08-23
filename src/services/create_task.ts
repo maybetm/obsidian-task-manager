@@ -13,27 +13,34 @@ import {UUID} from "crypto";
 export interface CreateTaskData {
 	title: string;
 	tags: string[];
+	description: string;
+	body: string;
 }
 
-export async function createTask(data: CreateTaskData, app: App, plugin: TaskManagerPlugin): Promise<TFile> {
+export async function createTask(createTaskData: CreateTaskData, app: App, plugin: TaskManagerPlugin): Promise<TFile> {
 	const rootTaskFolder = await createFolderIfNoExists(app, plugin.settings.tasksFolder);
 	const currenFolderName = getCurrentDate();
 	const currentDateFolder = await createFolderIfNoExists(app,
 		`${rootTaskFolder.path}/${currenFolderName}`
 	);
 
+	const task: Task = {
+		id: createRandomUUID(),
+		title: createTaskData.title,
+		description: createTaskData.description,
+		status: "",
+		priority: "",
+		tags: createTags(createTaskData.tags),
+		linkedTasks: createLinkedTasks([]),
+		dateCreated: getCurrentDateTime(),
+		dateModified: getCurrentDateTime()
+	};
+	const properties = createYamlProperties(task);
+	const fileData = `${properties}\n${createTaskData.body}`;
+
 	return await createTaskFile(
-		getFileNameFromTemplate(data.title),
-		createYamlProperties({
-			id: createRandomUUID(),
-			title: data.title,
-			status: "",
-			priority: "",
-			tags: createTags(data.tags),
-			linkedTasks: createLinkedTasks([]),
-			dateCreated: getCurrentDateTime(),
-			dateModified: getCurrentDateTime()
-		} as Task),
+		getFileNameFromTemplate(task.title),
+		fileData,
 		currentDateFolder,
 		app
 	);

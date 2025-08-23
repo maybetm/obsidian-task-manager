@@ -4,8 +4,11 @@ import {createTask} from "../../services/create_task";
 
 export default class CreateTaskModal extends Modal {
 	private plugin: TaskManagerPlugin;
+
 	private title: string;
 	private tags: string[] = [];
+	private body: string;
+	private description: string;
 
 	constructor(app: App, plugin: TaskManagerPlugin) {
 		super(app);
@@ -48,6 +51,9 @@ export default class CreateTaskModal extends Modal {
 			.then(textArea => {
 				textArea.inputEl.style.width = '100%';
 				textArea.inputEl.classList.add('form-textarea');
+			})
+			.onChange(async value => {
+				this.description = value
 			});
 
 		const markDownTaskBodyContainer = form.createDiv({cls: 'form-field'});
@@ -62,7 +68,10 @@ export default class CreateTaskModal extends Modal {
 			.then(textArea => {
 				textArea.inputEl.style.width = '100%';
 				textArea.inputEl.classList.add('form-textarea');
-			});
+			})
+			.onChange(async value => {
+			this.body = value
+		});
 
 		const buttonContainer = form.createDiv({cls: 'form-actions'});
 
@@ -70,13 +79,14 @@ export default class CreateTaskModal extends Modal {
 			.setButtonText('Save')
 			.setCta()
 			.onClick(() => {
-				createTask({
-						title: this.title,
-						tags: this.tags,
-					},
-					this.app,
-					this.plugin
-				)
+				const createTaskData = {
+					title: this.title,
+					tags: this.tags,
+					body: this.body,
+					description: this.description
+				};
+
+				createTask(createTaskData, this.app, this.plugin)
 					.then(value => {
 						this.close();
 						return this.app.workspace.getLeaf(false).openFile(value)

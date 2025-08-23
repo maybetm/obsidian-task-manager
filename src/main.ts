@@ -13,7 +13,6 @@ export default class TaskManagerPlugin extends Plugin {
 		});
 
 		this.addSettingTab(new TaskManagerSettingsTab(this.app, this));
-
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 	}
 

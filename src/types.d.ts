@@ -3,6 +3,7 @@ import {UUID} from "crypto";
 export interface Task {
 	id: UUID
 	title: string;
+	description: string;
 	status: string;
 	priority: string;
 	tags?: string[];
