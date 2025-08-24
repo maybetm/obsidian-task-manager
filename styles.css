@@ -54,3 +54,26 @@
 	border-color: var(--interactive-accent);
 	box-shadow: 0 0 0 2px var(--background-modifier-border-hover);
 }
+
+.settings-tab-headers {
+	border-bottom: 1px solid var(--background-modifier-border);
+	margin-bottom: 1.5rem;
+}
+
+.settings-tab-header {
+	background: none;
+	border: none;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	color: var(--text-muted);
+	border-bottom: 2px solid transparent;
+}
+
+.settings-tab-header.is-active {
+	color: var(--text-normal);
+	border-bottom-color: var(--interactive-accent);
+}
+
+.settings-tab-content {
+	padding-top: 0.5rem;
+}

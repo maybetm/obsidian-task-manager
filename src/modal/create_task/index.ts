@@ -1,9 +1,9 @@
 import {App, ButtonComponent, Modal, TextAreaComponent, TextComponent} from "obsidian";
 import TaskManagerPlugin from "../../main";
-import {createTask} from "../../services/create_task";
+import {createTask, CreateTaskData} from "../../services/create_task";
 
 export default class CreateTaskModal extends Modal {
-	private plugin: TaskManagerPlugin;
+	private readonly plugin: TaskManagerPlugin;
 
 	private title: string;
 	private tags: string[] = [];
@@ -35,9 +35,7 @@ export default class CreateTaskModal extends Modal {
 				component.inputEl.style.width = '100%';
 				component.inputEl.classList.add('form-input');
 			})
-			.onChange(async value => {
-				this.title = value
-			});
+			.onChange(async value => this.title = value);
 
 		const descContainer = form.createDiv({cls: 'form-field'});
 		descContainer.createEl('label', {
@@ -52,9 +50,7 @@ export default class CreateTaskModal extends Modal {
 				textArea.inputEl.style.width = '100%';
 				textArea.inputEl.classList.add('form-textarea');
 			})
-			.onChange(async value => {
-				this.description = value
-			});
+			.onChange(async value => this.description = value);
 
 		const markDownTaskBodyContainer = form.createDiv({cls: 'form-field'});
 		markDownTaskBodyContainer.createEl('label', {
@@ -69,28 +65,26 @@ export default class CreateTaskModal extends Modal {
 				textArea.inputEl.style.width = '100%';
 				textArea.inputEl.classList.add('form-textarea');
 			})
-			.onChange(async value => {
-			this.body = value
-		});
+			.onChange(async value => this.body = value);
 
 		const buttonContainer = form.createDiv({cls: 'form-actions'});
 
 		new ButtonComponent(buttonContainer)
 			.setButtonText('Save')
 			.setCta()
-			.onClick(() => {
+			.onClick(async () => {
 				const createTaskData = {
 					title: this.title,
 					tags: this.tags,
 					body: this.body,
 					description: this.description
-				};
+				} as CreateTaskData;
 
-				createTask(createTaskData, this.app, this.plugin)
-					.then(value => {
-						this.close();
-						return this.app.workspace.getLeaf(false).openFile(value)
-					})
+				const createdFile = await createTask(createTaskData, this.app, this.plugin);
+				if (this.containerEl.isConnected) {
+					this.close();
+					await this.app.workspace.getLeaf(false).openFile(createdFile)
+				}
 			});
 	}
 }

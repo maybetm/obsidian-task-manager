@@ -1,17 +1,29 @@
-import {App, Plugin, PluginSettingTab, Setting} from "obsidian";
+import {App, Plugin, PluginSettingTab} from "obsidian";
 import TaskManagerPlugin from "../main";
+import {renderMainTab} from "./tabs/main";
+import {SettingTab, SettingTabType} from "./types";
 
-export interface TaskManagerSettings {
-	tasksFolder: string
+interface SettingTabsContainer {
+	/**
+	 * Контейнер для заголовков вкладок
+	 */
+	header: HTMLDivElement;
+	/**
+	 * Контейнер для содержимого вкладок
+	 */
+	content: HTMLDivElement;
 }
 
-export const DEFAULT_SETTINGS: TaskManagerSettings = {
-	tasksFolder: "tasks"
-}
+const SETTING_TABS: SettingTab[] = [
+	{id: SettingTabType.MAIN, title: "Main", render: renderMainTab},
+	{id: SettingTabType.STATUS, title: "Statuses", render: containerEl => containerEl.empty()},
+	{id: SettingTabType.PRIORITY, title: "Priorities", render: containerEl => containerEl.empty()},
+];
 
 export class TaskManagerSettingsTab extends PluginSettingTab {
-
 	plugin: TaskManagerPlugin
+
+	private tabContainer: SettingTabsContainer;
 
 	constructor(app: App, plugin: Plugin) {
 		super(app, plugin);
@@ -19,25 +31,42 @@ export class TaskManagerSettingsTab extends PluginSettingTab {
 
 	display() {
 		const {containerEl} = this;
-
 		containerEl.empty();
 
-		this.renderDefaultPageTab();
+		this.tabContainer = {
+			header: containerEl.createDiv('settings-tab-headers'),
+			content: containerEl.createDiv('settings-tab-content')
+		}
+
+		SETTING_TABS.forEach(tab => {
+			const tabButton = this.tabContainer.header.createEl('button', {
+				cls: 'settings-tab-header',
+				text: tab.title
+			}, (el) => el.dataset.id = SettingTabType[tab.id]);
+
+			this.plugin.registerDomEvent(tabButton, 'click', () => {
+				this.activateTab(tab);
+			});
+		});
+
+		this.activateTab(SETTING_TABS[0]);
 	}
 
-	private renderDefaultPageTab(): void {
-		const {containerEl} = this;
-
-		new Setting(containerEl)
-			.setName('Tasks folder')
-			.setDesc('Default folder for created tasks')
-			.addText((text) =>
-				text
-					.setPlaceholder('task_folder')
-					.setValue(DEFAULT_SETTINGS.tasksFolder)
-					.onChange(async value => {
-						this.plugin.settings.tasksFolder = value;
-					})
-			);
+	private activateTab(activeTab: SettingTab) {
+		this.tabContainer.content.empty();
+		this.activeButtonTab(activeTab.id);
+		activeTab.render(this.tabContainer.content, this.plugin)
 	}
+
+	private activeButtonTab(activeTabId: SettingTabType) {
+		this.tabContainer.header.findAll("button").forEach(value => {
+			value.removeClass("is-active");
+
+			const rawId: string | undefined = value.dataset.id;
+			if (rawId && rawId === SettingTabType[activeTabId]) {
+				value.addClass("is-active");
+			}
+		});
+	}
+
 }

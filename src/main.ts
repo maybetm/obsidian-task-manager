@@ -1,6 +1,7 @@
 import {Plugin} from "obsidian";
-import {DEFAULT_SETTINGS, TaskManagerSettings, TaskManagerSettingsTab} from "./settings/settings";
+import {TaskManagerSettingsTab} from "./settings/settings";
 import CreateTaskModal from "./modal/create_task";
+import {DEFAULT_SETTINGS, TaskManagerSettings} from "./settings/tabs/main";
 
 export default class TaskManagerPlugin extends Plugin {
 	settings: TaskManagerSettings
@@ -13,7 +14,6 @@ export default class TaskManagerPlugin extends Plugin {
 		});
 
 		this.addSettingTab(new TaskManagerSettingsTab(this.app, this));
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 	}
 
 	private async initSettings(): Promise<TaskManagerSettings> {
