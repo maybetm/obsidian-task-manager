@@ -2,6 +2,7 @@ import {App, Plugin, PluginSettingTab} from "obsidian";
 import TaskManagerPlugin from "../main";
 import {renderMainTab} from "./tabs/main";
 import {SettingTab, SettingTabType} from "./types";
+import {renderStatusesTab} from "./tabs/statuses";
 
 interface SettingTabsContainer {
 	/**
@@ -16,7 +17,7 @@ interface SettingTabsContainer {
 
 const SETTING_TABS: SettingTab[] = [
 	{id: SettingTabType.MAIN, title: "Main", render: renderMainTab},
-	{id: SettingTabType.STATUS, title: "Statuses", render: containerEl => containerEl.empty()},
+	{id: SettingTabType.STATUS, title: "Statuses", render: renderStatusesTab},
 	{id: SettingTabType.PRIORITY, title: "Priorities", render: containerEl => containerEl.empty()},
 ];
 
