@@ -3,6 +3,7 @@ import TaskManagerPlugin from "../main";
 import {renderMainTab} from "./tabs/main";
 import {SettingTab, SettingTabType} from "./types";
 import {renderStatusesTab} from "./tabs/statuses";
+import {renderPrioritiesTab} from "./tabs/priorities";
 
 interface SettingTabsContainer {
 	/**
@@ -18,7 +19,7 @@ interface SettingTabsContainer {
 const SETTING_TABS: SettingTab[] = [
 	{id: SettingTabType.MAIN, title: "Main", render: renderMainTab},
 	{id: SettingTabType.STATUS, title: "Statuses", render: renderStatusesTab},
-	{id: SettingTabType.PRIORITY, title: "Priorities", render: containerEl => containerEl.empty()},
+	{id: SettingTabType.PRIORITY, title: "Priorities", render: renderPrioritiesTab},
 ];
 
 export class TaskManagerSettingsTab extends PluginSettingTab {

@@ -1,6 +1,6 @@
 import {RenderTabProcessor} from "../types";
 import TaskManagerPlugin from "../../main";
-import {Setting} from "obsidian";
+import {ButtonComponent} from "obsidian";
 
 export interface StatusesSettings {
 	value: string,
@@ -42,17 +42,9 @@ export const renderStatusesTab: RenderTabProcessor = (containerEl: HTMLElement, 
 		DEFAULT_STATUSES_SETTINGS.forEach(it => renderRow(it, el.insertRow()))
 	});
 
-
-	new Setting(containerEl)
-		.setName('Test field')
-		.setDesc('Default field for example')
-		.addText((text) =>
-			text
-				.setPlaceholder('text input')
-				.setValue("default value")
-				.onChange(async value => {
-					console.log("value", value)
-				})
-		);
+	rootStatusesTab.createDiv({cls: 'form-actions'}, containerEl => {
+		new ButtonComponent(containerEl)
+			.setButtonText('Add new status')
+	});
 }
 
