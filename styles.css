@@ -1,3 +1,23 @@
+
+.quick-actions-icon {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 31px;
+	height: 32px;
+	border-radius: var(--radius-s);
+}
+
+.quick-actions-icon:hover {
+	background: var(--background-modifier-hover);
+	transform: translateY(-1px);
+}
+
+.quick-actions-icon-separator {
+	align-content: center;
+}
+
 /* Основные стили формы */
 .task-form {
 	--form-spacing: 1.2em;
