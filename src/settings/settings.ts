@@ -1,9 +1,21 @@
 import {App, Plugin, PluginSettingTab} from "obsidian";
 import TaskManagerPlugin from "../main";
-import {renderMainTab} from "./tabs/main";
+import {renderMainTab, MainSettings, DEFAULT_MAIN_SETTINGS} from "./tabs/main";
 import {SettingTab, SettingTabType} from "./types";
-import {renderStatusesTab} from "./tabs/statuses";
-import {renderPrioritiesTab} from "./tabs/priorities";
+import {DEFAULT_STATUSES_SETTINGS, renderStatusesTab, StatusesSettings} from "./tabs/statuses";
+import {DEFAULT_PRIORITIES_SETTINGS, PrioritiesSettings, renderPrioritiesTab} from "./tabs/priorities";
+
+export interface TaskManagerSettings {
+	main: MainSettings
+	priorities: PrioritiesSettings[]
+	statuses: StatusesSettings[]
+}
+
+export const DEFAULT_SETTINGS: TaskManagerSettings = {
+	main: DEFAULT_MAIN_SETTINGS,
+	priorities: DEFAULT_PRIORITIES_SETTINGS,
+	statuses: DEFAULT_STATUSES_SETTINGS
+}
 
 interface SettingTabsContainer {
 	/**

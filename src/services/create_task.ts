@@ -18,7 +18,7 @@ export interface CreateTaskData {
 }
 
 export async function createTask(createTaskData: CreateTaskData, app: App, plugin: TaskManagerPlugin): Promise<TFile> {
-	const rootTaskFolder = await createFolderIfNoExists(app, plugin.settings.tasksFolder);
+	const rootTaskFolder = await createFolderIfNoExists(app, plugin.settings.main.tasksFolder);
 	const currenFolderName = getCurrentDate();
 	const currentDateFolder = await createFolderIfNoExists(app,
 		`${rootTaskFolder.path}/${currenFolderName}`

@@ -2,11 +2,11 @@ import {Setting} from "obsidian";
 import {RenderTabProcessor} from "../types";
 import TaskManagerPlugin from "../../main";
 
-export interface TaskManagerSettings {
+export interface MainSettings {
 	tasksFolder: string
 }
 
-export const DEFAULT_SETTINGS: TaskManagerSettings = {
+export const DEFAULT_MAIN_SETTINGS: MainSettings = {
 	tasksFolder: "tasks"
 }
 
@@ -17,9 +17,9 @@ export const renderMainTab: RenderTabProcessor = (containerEl: HTMLElement, plug
 		.addText((text) =>
 			text
 				.setPlaceholder('task_folder')
-				.setValue(DEFAULT_SETTINGS.tasksFolder)
+				.setValue(DEFAULT_MAIN_SETTINGS.tasksFolder)
 				.onChange(async value => {
-					plugin.settings.tasksFolder = value;
+					plugin.settings.main.tasksFolder = value;
 				})
 		);
 }

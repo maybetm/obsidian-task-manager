@@ -12,3 +12,5 @@ export interface Task {
 	dateCreated: string; // Creation date (ISO timestamp)
 	dateModified: string // Last modification date (ISO timestamp)
 }
+
+export type ActionIcon = 'thermometer' | 'tornado' | 'flame';

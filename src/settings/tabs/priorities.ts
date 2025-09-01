@@ -4,16 +4,16 @@ import {ButtonComponent} from "obsidian";
 
 export interface PrioritiesSettings {
 	value: string,
-	displayLabel: string,
+	label: string,
 	color: string,
 	weight: number
 }
 
-const DEFAULT_PRIORITIES_SETTINGS: PrioritiesSettings[] = [
-	{value: "high", displayLabel: "High", color: "#C23636", weight: 3},
-	{value: "normal", displayLabel: "Normal", color: "#FDA900", weight: 2},
-	{value: "low", displayLabel: "Low", color: "#00A900", weight: 1},
-	{value: "none", displayLabel: "None", color: "#E8E7E7", weight: 0}
+export const DEFAULT_PRIORITIES_SETTINGS: PrioritiesSettings[] = [
+	{value: "high", label: "High", color: "#C23636", weight: 3},
+	{value: "normal", label: "Normal", color: "#FDA900", weight: 2},
+	{value: "low", label: "Low", color: "#00A900", weight: 1},
+	{value: "none", label: "None", color: "#E8E7E7", weight: 0}
 ]
 
 export const renderPrioritiesTab: RenderTabProcessor = (containerEl: HTMLElement, plugin: TaskManagerPlugin): void => {
@@ -34,7 +34,7 @@ export const renderPrioritiesTab: RenderTabProcessor = (containerEl: HTMLElement
 	table.createEl("tbody", {}, (el: HTMLTableSectionElement) => {
 		const renderRow = (settings: PrioritiesSettings, row: HTMLTableRowElement): void => {
 			row.insertCell().textContent = settings.value;
-			row.insertCell().textContent = settings.displayLabel;
+			row.insertCell().textContent = settings.label;
 			row.insertCell().innerHTML = `<input type="color" value="${settings.color}">`;
 			row.insertCell().innerHTML = `<input type="number" value=${settings.weight}>`
 		};

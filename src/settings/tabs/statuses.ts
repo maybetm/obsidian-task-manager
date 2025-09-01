@@ -4,16 +4,16 @@ import {ButtonComponent} from "obsidian";
 
 export interface StatusesSettings {
 	value: string,
-	displayLabel: string,
+	label: string,
 	color: string,
 	isCompleted: boolean
 }
 
-const DEFAULT_STATUSES_SETTINGS: StatusesSettings[] = [
-	{value: "none", displayLabel: "None", color: "#CCCCCC", isCompleted: false},
-	{value: "open", displayLabel: "Open", color: "#808080", isCompleted: false},
-	{value: "in-progress", displayLabel: "In progress", color: "#0066CC", isCompleted: false},
-	{value: "closed", displayLabel: "Closed", color: "#00AA00", isCompleted: true}
+export const DEFAULT_STATUSES_SETTINGS: StatusesSettings[] = [
+	{value: "none", label: "None", color: "#CCCCCC", isCompleted: false},
+	{value: "open", label: "Open", color: "#808080", isCompleted: false},
+	{value: "in-progress", label: "In progress", color: "#0066CC", isCompleted: false},
+	{value: "closed", label: "Closed", color: "#00AA00", isCompleted: true}
 ]
 
 export const renderStatusesTab: RenderTabProcessor = (containerEl: HTMLElement, plugin: TaskManagerPlugin): void => {
@@ -34,7 +34,7 @@ export const renderStatusesTab: RenderTabProcessor = (containerEl: HTMLElement, 
 	table.createEl("tbody", {}, (el: HTMLTableSectionElement) => {
 		const renderRow = (settings: StatusesSettings, row: HTMLTableRowElement): void => {
 			row.insertCell().textContent = settings.value;
-			row.insertCell().textContent = settings.displayLabel;
+			row.insertCell().textContent = settings.label;
 			row.insertCell().innerHTML = `<input type="color" value="${settings.color}">`;
 			row.insertCell().innerHTML = `<input type="checkbox" ${settings.isCompleted && "checked" || ""}>`
 		};

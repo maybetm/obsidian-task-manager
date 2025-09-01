@@ -1,7 +1,6 @@
 import {Plugin} from "obsidian";
-import {TaskManagerSettingsTab} from "./settings/settings";
+import {DEFAULT_SETTINGS, TaskManagerSettings, TaskManagerSettingsTab} from "./settings/settings";
 import CreateTaskModal from "./modal/create_task";
-import {DEFAULT_SETTINGS, TaskManagerSettings} from "./settings/tabs/main";
 
 export default class TaskManagerPlugin extends Plugin {
 	settings: TaskManagerSettings
@@ -17,7 +16,7 @@ export default class TaskManagerPlugin extends Plugin {
 	}
 
 	private async initSettings(): Promise<TaskManagerSettings> {
-		//const loadedSettings = await this.loadSettings();
+		//todo const loadedSettings = await this.loadSettings();
 
 		return {
 			...DEFAULT_SETTINGS,

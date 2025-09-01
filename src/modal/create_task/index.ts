@@ -1,7 +1,7 @@
 import {App, ButtonComponent, Modal, TextAreaComponent, TextComponent} from "obsidian";
 import TaskManagerPlugin from "../../main";
 import {createTask, CreateTaskData} from "../../services/create_task";
-import {createTaskActionBar} from "./action_bar";
+import {createTaskActionBar} from "../action_bar/action_bar";
 
 export default class CreateTaskModal extends Modal {
 	private readonly plugin: TaskManagerPlugin;
@@ -10,6 +10,8 @@ export default class CreateTaskModal extends Modal {
 	private tags: string[] = [];
 	private body: string;
 	private description: string;
+	private currentStatusValue: string;
+	private currentPriorityValue: string;
 
 	constructor(app: App, plugin: TaskManagerPlugin) {
 		super(app);
@@ -39,10 +41,7 @@ export default class CreateTaskModal extends Modal {
 				.onChange(async value => this.title = value);
 		});
 
-		createTaskActionBar({
-			container: form,
-			plugin: this.plugin
-		});
+		createTaskActionBar({container: form, plugin: this.plugin, app: this.app});
 
 		form.createDiv({cls: 'form-field'}, descContainer => {
 			descContainer.createEl('label', {
