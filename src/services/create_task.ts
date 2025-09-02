@@ -15,6 +15,8 @@ export interface CreateTaskData {
 	tags: string[];
 	description: string;
 	body: string;
+	status: string;
+	priority: string;
 }
 
 export async function createTask(createTaskData: CreateTaskData, app: App, plugin: TaskManagerPlugin): Promise<TFile> {
@@ -28,8 +30,8 @@ export async function createTask(createTaskData: CreateTaskData, app: App, plugi
 		id: createRandomUUID(),
 		title: createTaskData.title,
 		description: createTaskData.description,
-		status: "",
-		priority: "",
+		status: createTaskData.status,
+		priority: createTaskData.priority,
 		tags: createTags(createTaskData.tags),
 		linkedTasks: createLinkedTasks([]),
 		dateCreated: getCurrentDateTime(),

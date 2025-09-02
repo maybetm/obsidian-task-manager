@@ -1,52 +1,41 @@
 import TaskManagerPlugin from "../../main";
-import {App, setIcon} from "obsidian";
-import {ContextMenuItem, ContextMenu} from "../menu/context_menu";
+import {App} from "obsidian";
+import {createStatusButton} from "./buttons/status";
+import {createPriorityButton} from "./buttons/priority";
+import {createIconButton} from "./utils";
 
 interface TaskActionBarProps {
 	container: HTMLElement,
-	plugin: TaskManagerPlugin
-	app: App
+	plugin: TaskManagerPlugin,
+	app: App,
+	getCurrentStatusValue: () => string;
+	getCurrentPriorityValue: () => string;
+	onSelectStatusButton: (value: string) => void,
+	onSelectPriorityButton: (value: string) => void,
 }
 
 export function createTaskActionBar(props: TaskActionBarProps): void {
-	const statusMenuContext = new ContextMenu({
-		parentActionIcon: "thermometer",
-		currentValue: "open",
-		onSelect: val => console.log(val),
+	const actionBarContainer = props.container.createDiv({
+		cls: "action-bar",
+		attr: {
+			style: "display: flex;"
+		}
+	});
+
+	createIconButton("menu-button", "tornado", actionBarContainer)
+	createLineSeparator(actionBarContainer);
+
+	createStatusButton(actionBarContainer, {
+		getCurrentStatusValue: props.getCurrentStatusValue,
 		plugin: props.plugin,
-		menuItems: props.plugin.settings.statuses as ContextMenuItem[]
-	});
+		onSelectStatusButton: props.onSelectStatusButton
+	})
 
-	const priorityMenuContext = new ContextMenu({
-		parentActionIcon: "flame",
-		currentValue: "normal",
-		onSelect: val => console.log(val),
+	createPriorityButton(actionBarContainer,{
+		getCurrentPriorityValue: props.getCurrentPriorityValue,
 		plugin: props.plugin,
-		menuItems: props.plugin.settings.priorities as ContextMenuItem[]
-	});
-
-	props.container.createDiv({
-			cls: "action-bar",
-			attr: {
-				style: "display: flex;"
-			}
-		},
-		actionBarContainer => {
-			createIconButton("menu-button", "tornado", actionBarContainer)
-			createLineSeparator(actionBarContainer);
-
-			createIconButton("status-button", "thermometer", actionBarContainer)
-				.onClickEvent(ev => statusMenuContext.showAtElement(ev.currentTarget as HTMLElement))
-
-			createIconButton("priority-button", "flame", actionBarContainer)
-				.onClickEvent(ev => priorityMenuContext.showAtElement(ev.currentTarget as HTMLElement));
-		})
-}
-
-function createIconButton(className: string, iconName: string, container: HTMLElement): HTMLElement {
-	return container.createDiv({cls: "quick-actions-icon"}, el => {
-		el.createSpan({cls: className}, el => setIcon(el, iconName));
-	});
+		onSelectPriorityButton: props.onSelectPriorityButton
+	})
 }
 
 function createLineSeparator(icons: HTMLDivElement) {
@@ -61,3 +50,4 @@ function createLineSeparator(icons: HTMLDivElement) {
 		el.createSpan("form-icon-menu-separator", el => Object.assign(el.style, styles));
 	})
 }
+

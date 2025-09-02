@@ -10,8 +10,8 @@ export default class CreateTaskModal extends Modal {
 	private tags: string[] = [];
 	private body: string;
 	private description: string;
-	private currentStatusValue: string;
-	private currentPriorityValue: string;
+	private currentStatusValue = "open";
+	private currentPriorityValue = "normal";
 
 	constructor(app: App, plugin: TaskManagerPlugin) {
 		super(app);
@@ -41,7 +41,15 @@ export default class CreateTaskModal extends Modal {
 				.onChange(async value => this.title = value);
 		});
 
-		createTaskActionBar({container: form, plugin: this.plugin, app: this.app});
+		createTaskActionBar({
+			container: form,
+			plugin: this.plugin,
+			app: this.app,
+			getCurrentStatusValue: () => this.currentStatusValue,
+			getCurrentPriorityValue: () => this.currentPriorityValue,
+			onSelectStatusButton: value => this.currentStatusValue = value,
+			onSelectPriorityButton: value => this.currentPriorityValue = value
+		});
 
 		form.createDiv({cls: 'form-field'}, descContainer => {
 			descContainer.createEl('label', {
@@ -84,7 +92,9 @@ export default class CreateTaskModal extends Modal {
 						title: this.title,
 						tags: this.tags,
 						body: this.body,
-						description: this.description
+						description: this.description,
+						status: this.currentStatusValue,
+						priority: this.currentPriorityValue
 					};
 
 					const createdFile = await createTask(createTaskData, this.app, this.plugin);

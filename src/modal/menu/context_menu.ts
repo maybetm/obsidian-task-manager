@@ -11,7 +11,7 @@ export interface ContextMenuItem {
 export interface ContextMenuOptions {
 	parentActionIcon: ActionIcon
 	currentValue: string;
-	onSelect: (value: string) => void;
+	onSelect: (contextMenuItem: ContextMenuItem) => void;
 	plugin: TaskManagerPlugin;
 	menuItems: ContextMenuItem[];
 }
@@ -22,13 +22,10 @@ export class ContextMenu {
 
 	constructor(options: ContextMenuOptions) {
 		this.options = options;
-		this.buildMenu();
-	}
 
-	private buildMenu(): void {
-		const statusOptions = this.options.menuItems;
+		const contextMenuItems = this.options.menuItems;
 
-		statusOptions.forEach((option, index) => {
+		contextMenuItems.forEach((option, index) => {
 			this.menu.addItem(item => {
 				if (option.value === this.options.currentValue) {
 					item.setTitle(`✓ ${option.label}`);
@@ -37,34 +34,38 @@ export class ContextMenu {
 				}
 
 				item.setIcon(this.options.parentActionIcon);
-				item.onClick(async () => this.options.onSelect(option.value));
+				item.onClick(async () => {
+					this.options.onSelect(option);
+				});
+
 			});
 		});
 	}
 
-	public showAtElement(element: HTMLElement): void {
+	public showAtElement(actionBarBtn: HTMLElement): void {
 		this.menu.showAtPosition({
-			x: element.getBoundingClientRect().left,
-			y: element.getBoundingClientRect().bottom + 4
+			x: actionBarBtn.getBoundingClientRect().left,
+			y: actionBarBtn.getBoundingClientRect().bottom + 4
 		});
 
 		this.applyColorStyling();
 	}
 
 	private applyColorStyling(): void {
-		const statusOptions = this.options.menuItems;
+		const contextMenuItems = this.options.menuItems;
 		const menuEl = document.querySelector('.menu');
 
-		if (!menuEl) return;
+		if (!menuEl) {
+			throw new Error("menu is undefined");
+		}
 
 		const menuItems = menuEl.querySelectorAll('.menu-item');
-
-		statusOptions.forEach((option, index) => {
+		contextMenuItems.forEach((option, index) => {
 			const menuItem = menuItems[index] as HTMLElement;
 			if (menuItem && option.color) {
-				const iconEl = menuItem.querySelector('.menu-item-icon');
+				const iconEl = menuItem.querySelector('.menu-item-icon') as HTMLElement;
 				if (iconEl) {
-					(iconEl as HTMLElement).style.color = option.color;
+					iconEl.style.color = option.color;
 				}
 			}
 		});
