@@ -1,5 +1,5 @@
 import {setIcon} from "obsidian";
-import {ContextMenuItem} from "../menu/context_menu";
+import {ContextMenuItem} from "../../context_menu";
 
 export function createIconButton(className: string, iconName: string, container: HTMLElement): HTMLElement {
 	return container.createDiv({cls: "quick-actions-icon"}, el => {

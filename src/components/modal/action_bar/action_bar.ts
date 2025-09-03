@@ -1,28 +1,30 @@
-import TaskManagerPlugin from "../../main";
+import TaskManagerPlugin from "../../../main";
 import {App} from "obsidian";
 import {createStatusButton} from "./buttons/status";
 import {createPriorityButton} from "./buttons/priority";
-import {createIconButton} from "./utils";
+import {createExpandComponent} from "./buttons/expand";
 
 interface TaskActionBarProps {
-	container: HTMLElement,
 	plugin: TaskManagerPlugin,
 	app: App,
 	getCurrentStatusValue: () => string;
 	getCurrentPriorityValue: () => string;
 	onSelectStatusButton: (value: string) => void,
 	onSelectPriorityButton: (value: string) => void,
+	expandOnClick: () => void,
 }
 
-export function createTaskActionBar(props: TaskActionBarProps): void {
-	const actionBarContainer = props.container.createDiv({
-		cls: "action-bar",
-		attr: {
-			style: "display: flex;"
-		}
+export function createTaskActionBar(props: TaskActionBarProps): HTMLDivElement {
+	const actionBarContainer = document.createElement("div");
+	actionBarContainer.className = "action-bar";
+	actionBarContainer.setCssStyles({
+		display: "flex",
 	});
 
-	createIconButton("menu-button", "tornado", actionBarContainer)
+	createExpandComponent(actionBarContainer, {
+		onClick: props.expandOnClick,
+	});
+
 	createLineSeparator(actionBarContainer);
 
 	createStatusButton(actionBarContainer, {
@@ -31,11 +33,13 @@ export function createTaskActionBar(props: TaskActionBarProps): void {
 		onSelectStatusButton: props.onSelectStatusButton
 	})
 
-	createPriorityButton(actionBarContainer,{
+	createPriorityButton(actionBarContainer, {
 		getCurrentPriorityValue: props.getCurrentPriorityValue,
 		plugin: props.plugin,
 		onSelectPriorityButton: props.onSelectPriorityButton
 	})
+
+	return actionBarContainer;
 }
 
 function createLineSeparator(icons: HTMLDivElement) {

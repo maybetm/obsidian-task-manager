@@ -1,7 +1,8 @@
 import {App, ButtonComponent, Modal, TextAreaComponent, TextComponent} from "obsidian";
-import TaskManagerPlugin from "../../main";
-import {createTask, CreateTaskData} from "../../services/create_task";
+import TaskManagerPlugin from "../../../main";
+import {createTask, CreateTaskData} from "../../../services/create_task";
 import {createTaskActionBar} from "../action_bar/action_bar";
+import {toggleVisibility} from "../../utils";
 
 export default class CreateTaskModal extends Modal {
 	private readonly plugin: TaskManagerPlugin;
@@ -41,47 +42,19 @@ export default class CreateTaskModal extends Modal {
 				.onChange(async value => this.title = value);
 		});
 
-		createTaskActionBar({
-			container: form,
-			plugin: this.plugin,
-			app: this.app,
-			getCurrentStatusValue: () => this.currentStatusValue,
-			getCurrentPriorityValue: () => this.currentPriorityValue,
-			onSelectStatusButton: value => this.currentStatusValue = value,
-			onSelectPriorityButton: value => this.currentPriorityValue = value
-		});
+		const expandedForm = this.createExpandedForm();
 
-		form.createDiv({cls: 'form-field'}, descContainer => {
-			descContainer.createEl('label', {
-				text: 'Description',
-				cls: 'form-label'
-			});
-
-			new TextAreaComponent(descContainer)
-				.setPlaceholder("Enter task description...")
-				.setValue('')
-				.then(textArea => {
-					textArea.inputEl.style.width = '100%';
-					textArea.inputEl.classList.add('form-textarea');
-				})
-				.onChange(async value => this.description = value);
-		});
-
-		form.createDiv({cls: 'form-field'}, markDownTaskBodyContainer => {
-			markDownTaskBodyContainer.createEl('label', {
-				text: 'Task body',
-				cls: 'form-label'
-			});
-
-			new TextAreaComponent(markDownTaskBodyContainer)
-				.setPlaceholder("Enter markdown, obsidian like task body...")
-				.setValue('')
-				.then(textArea => {
-					textArea.inputEl.style.width = '100%';
-					textArea.inputEl.classList.add('form-textarea');
-				})
-				.onChange(async value => this.body = value);
-		});
+		form.appendChild(createTaskActionBar({
+				plugin: this.plugin,
+				app: this.app,
+				getCurrentStatusValue: () => this.currentStatusValue,
+				getCurrentPriorityValue: () => this.currentPriorityValue,
+				onSelectStatusButton: value => this.currentStatusValue = value,
+				onSelectPriorityButton: value => this.currentPriorityValue = value,
+				expandOnClick: () => toggleVisibility(expandedForm)
+			})
+		);
+		form.appendChild(expandedForm)
 
 		form.createDiv({cls: 'form-actions'}, buttonContainer => {
 			new ButtonComponent(buttonContainer)
@@ -106,7 +79,48 @@ export default class CreateTaskModal extends Modal {
 		});
 
 	}
+
+	private createExpandedForm(): HTMLElement {
+		const expandedFormCallback = document.createElement('div');
+		expandedFormCallback.classList.add('expanded-form', 'task-form', 'hidden')
+
+		expandedFormCallback.createDiv({cls: 'form-field'}, descContainer => {
+			descContainer.createEl('label', {
+				text: 'Description',
+				cls: 'form-label'
+			});
+
+			new TextAreaComponent(descContainer)
+				.setPlaceholder("Enter task description...")
+				.setValue('')
+				.then(textArea => {
+					textArea.inputEl.style.width = '100%';
+					textArea.inputEl.classList.add('form-textarea');
+				})
+				.onChange(async value => this.description = value);
+		});
+
+		expandedFormCallback.createDiv({cls: 'form-field'}, markDownTaskBodyContainer => {
+			markDownTaskBodyContainer.createEl('label', {
+				text: 'Task body',
+				cls: 'form-label'
+			});
+
+			new TextAreaComponent(markDownTaskBodyContainer)
+				.setPlaceholder("Enter markdown, obsidian like task body...")
+				.setValue('')
+				.then(textArea => {
+					textArea.inputEl.style.width = '100%';
+					textArea.inputEl.classList.add('form-textarea');
+				})
+				.onChange(async value => this.body = value);
+		});
+
+		return expandedFormCallback
+	}
 }
+
+
 
 
 

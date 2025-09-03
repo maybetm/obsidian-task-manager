@@ -1,5 +1,5 @@
-import TaskManagerPlugin from "../../../main";
-import {ContextMenu, ContextMenuItem} from "../../menu/context_menu";
+import TaskManagerPlugin from "../../../../main";
+import {ContextMenu, ContextMenuItem} from "../../../context_menu";
 import {createIconButton, getCurrentActionColor} from "../utils";
 
 interface PriorityButtonProps {

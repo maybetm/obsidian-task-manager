@@ -1,6 +1,6 @@
 import {Menu} from "obsidian";
-import TaskManagerPlugin from "../../main";
-import {ActionIcon} from "../../types";
+import TaskManagerPlugin from "../main";
+import {ActionIcon} from "../types";
 
 export interface ContextMenuItem {
 	value: string
