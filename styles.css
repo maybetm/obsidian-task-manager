@@ -42,8 +42,8 @@
 }
 
 /* Общие стили для полей ввода */
-.form-input,
-.form-textarea {
+.task-form .form-input,
+.task-form .form-textarea {
 	padding: 8px 12px;
 	border: 1px solid var(--background-modifier-border);
 	border-radius: 4px;
@@ -68,8 +68,8 @@
 }
 
 /* Состояния полей */
-.form-input:focus,
-.form-textarea:focus {
+.task-form .form-input:focus,
+.task-form .form-textarea:focus {
 	outline: none;
 	border-color: var(--interactive-accent);
 	box-shadow: 0 0 0 2px var(--background-modifier-border-hover);
