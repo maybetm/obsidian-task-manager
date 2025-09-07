@@ -1,5 +1,5 @@
-import {Plugin} from "obsidian";
-import {DEFAULT_SETTINGS, TaskManagerSettings, TaskManagerSettingsTab} from "./settings/settings";
+import { Plugin } from "obsidian";
+import { DEFAULT_SETTINGS, TaskManagerSettings, TaskManagerSettingsTab } from "./settings/settings";
 import CreateTaskModal from "./components/modal/create_task";
 
 export default class TaskManagerPlugin extends Plugin {
@@ -24,3 +24,4 @@ export default class TaskManagerPlugin extends Plugin {
 		}
 	}
 }
+

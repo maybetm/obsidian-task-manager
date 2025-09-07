@@ -1,4 +1,5 @@
-import {UUID} from "crypto";
+
+type UUID = string;
 
 export interface Task {
 	id: UUID
@@ -13,4 +14,3 @@ export interface Task {
 	dateModified: string // Last modification date (ISO timestamp)
 }
 
-export type ActionIcon = 'thermometer' | 'tornado' | 'flame';

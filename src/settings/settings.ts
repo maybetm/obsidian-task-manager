@@ -1,14 +1,16 @@
-import {App, Plugin, PluginSettingTab} from "obsidian";
+import { App, Plugin, PluginSettingTab } from "obsidian";
 import TaskManagerPlugin from "../main";
-import {renderMainTab, MainSettings, DEFAULT_MAIN_SETTINGS} from "./tabs/main";
-import {SettingTab, SettingTabType} from "./types";
-import {DEFAULT_STATUSES_SETTINGS, renderStatusesTab, StatusesSettings} from "./tabs/statuses";
-import {DEFAULT_PRIORITIES_SETTINGS, PrioritiesSettings, renderPrioritiesTab} from "./tabs/priorities";
+import { DEFAULT_MAIN_SETTINGS, MainSettings, MainTabComponent } from "./tabs/MainTab";
+import { SettingTab, SettingTabType } from "./types";
+import { DEFAULT_STATUSES_SETTINGS, StatusSettingComponent, StatusSettingItem } from "./tabs/StatusesTab";
+import { DEFAULT_PRIORITIES_SETTINGS, PriorityComponent, PrioritySetting } from "./tabs/PrioritiesTab";
+import { createRoot, Root } from "react-dom/client";
+import * as React from "react";
 
 export interface TaskManagerSettings {
 	main: MainSettings
-	priorities: PrioritiesSettings[]
-	statuses: StatusesSettings[]
+	priorities: PrioritySetting[]
+	statuses: StatusSettingItem[]
 }
 
 export const DEFAULT_SETTINGS: TaskManagerSettings = {
@@ -29,15 +31,16 @@ interface SettingTabsContainer {
 }
 
 const SETTING_TABS: SettingTab[] = [
-	{id: SettingTabType.MAIN, title: "Main", render: renderMainTab},
-	{id: SettingTabType.STATUS, title: "Statuses", render: renderStatusesTab},
-	{id: SettingTabType.PRIORITY, title: "Priorities", render: renderPrioritiesTab},
+	{id: SettingTabType.MAIN, title: "Main", getContentComponent: MainTabComponent},
+	{id: SettingTabType.STATUS, title: "Statuses", getContentComponent: StatusSettingComponent},
+	{id: SettingTabType.PRIORITY, title: "Priorities", getContentComponent: PriorityComponent},
 ];
 
 export class TaskManagerSettingsTab extends PluginSettingTab {
 	plugin: TaskManagerPlugin
 
 	private tabContainer: SettingTabsContainer;
+	private rootContainer: Root;
 
 	constructor(app: App, plugin: Plugin) {
 		super(app, plugin);
@@ -51,6 +54,8 @@ export class TaskManagerSettingsTab extends PluginSettingTab {
 			header: containerEl.createDiv('settings-tab-headers'),
 			content: containerEl.createDiv('settings-tab-content')
 		}
+
+		this.rootContainer = createRoot(this.tabContainer.content)
 
 		SETTING_TABS.forEach(tab => {
 			const tabButton = this.tabContainer.header.createEl('button', {
@@ -67,9 +72,10 @@ export class TaskManagerSettingsTab extends PluginSettingTab {
 	}
 
 	private activateTab(activeTab: SettingTab) {
-		this.tabContainer.content.empty();
 		this.activeButtonTab(activeTab.id);
-		activeTab.render(this.tabContainer.content, this.plugin)
+		this.rootContainer.render(React.createElement(activeTab.getContentComponent, {
+			plugin: this.plugin
+		}));
 	}
 
 	private activeButtonTab(activeTabId: SettingTabType) {

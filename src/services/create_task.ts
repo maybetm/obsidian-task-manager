@@ -1,6 +1,6 @@
-import {App, TFile, TFolder} from "obsidian";
+import { App, TFile, TFolder } from "obsidian";
 import TaskManagerPlugin from "../main";
-import {Task} from "../types";
+import { Task } from "../types";
 import {
 	createRandomUUID,
 	createYamlProperties,
@@ -8,7 +8,7 @@ import {
 	getCurrentDateTime,
 	getTimestampUnixTime
 } from "../utils/utils";
-import {UUID} from "crypto";
+import { UUID } from "crypto";
 
 export interface CreateTaskData {
 	title: string;

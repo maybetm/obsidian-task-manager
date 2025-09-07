@@ -7,6 +7,7 @@
 	width: 31px;
 	height: 32px;
 	border-radius: var(--radius-s);
+	border: 1px solid transparent;
 }
 
 .quick-actions-icon:hover {
@@ -68,12 +69,14 @@
 }
 
 /* Состояния полей */
+.task-form .action-bar .quick-actions-icon:focus,
 .task-form .form-input:focus,
 .task-form .form-textarea:focus {
 	outline: none;
 	border-color: var(--interactive-accent);
 	box-shadow: 0 0 0 2px var(--background-modifier-border-hover);
 }
+
 
 .settings-tab-headers {
 	border-bottom: 1px solid var(--background-modifier-border);
