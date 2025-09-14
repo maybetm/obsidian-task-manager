@@ -1,5 +1,5 @@
 
-type UUID = string;
+type UUID = `${string}-${string}-${string}-${string}-${string}`;
 
 export interface Task {
 	id: UUID

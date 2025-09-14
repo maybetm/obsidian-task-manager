@@ -12,6 +12,3 @@ export function useCallbackOnKetPressed(callback: (event: KeyboardEvent<HTMLDivE
         }
     }, [callback]);
 }
-
-
-

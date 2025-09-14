@@ -1,13 +1,14 @@
-import { randomUUID, UUID } from "crypto";
 import { format } from "date-fns/format";
 import { stringify } from "yaml";
+import { UUID } from "../types";
+import { v4 as randomUUID } from 'uuid';
 
 export const DATE_TIME_FORMAT_WITH_TIME_ZONE = "yyyy-MM-dd'T'HH:mm:ss.sss XXX";
 export const DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 export const DATE_FORMAT = "yyyy-MM-dd";
 
 export function createRandomUUID(): UUID {
-	return randomUUID();
+	return randomUUID() as UUID;
 }
 
 export function getCurrentDateTimeWithTimeZone(): string {
