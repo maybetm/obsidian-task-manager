@@ -1,4 +1,5 @@
 import TaskManagerPlugin from "../main";
+import * as React from "react";
 
 export enum SettingTabType {
 	MAIN,
@@ -9,8 +10,12 @@ export enum SettingTabType {
 export interface SettingTab {
 	id: SettingTabType;
 	title: string;
-	render: RenderTabProcessor;
+	getContentComponent: GetContentComponent;
 }
 
-export type RenderTabProcessor = (containerEl: HTMLElement, plugin: TaskManagerPlugin) => void;
+export interface GetContentComponentProps {
+	plugin: TaskManagerPlugin
+}
+
+export type GetContentComponent = React.FC<GetContentComponentProps>;
 
