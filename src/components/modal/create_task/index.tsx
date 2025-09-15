@@ -9,7 +9,7 @@ import { createTask, CreateTaskData } from "../../../services/create_task";
 export default class CreateTaskModal extends Modal {
 	private readonly plugin: TaskManagerPlugin;
 
-	private title = "dsa";
+	private title: string;
 	private tags: string[] = [];
 	private body: string;
 	private description: string;
@@ -70,8 +70,3 @@ export default class CreateTaskModal extends Modal {
 	}
 
 }
-
-
-
-
-
