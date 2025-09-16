@@ -11,8 +11,9 @@ export default class CreateTaskModal extends Modal {
 
 	private title: string;
 	private tags: string[] = [];
-	private body: string;
-	private description: string;
+	private linkedTasks: string[] | null;
+	private body: string | null;
+	private description: string | null;
 	private currentStatusValue = "open";
 	private currentPriorityValue = "normal";
 
@@ -59,7 +60,8 @@ export default class CreateTaskModal extends Modal {
 			body: this.body,
 			description: this.description,
 			status: this.currentStatusValue,
-			priority: this.currentPriorityValue
+			priority: this.currentPriorityValue,
+			linkedTasks: this.linkedTasks
 		};
 
 		const createdFile = await createTask(createTaskData, this.app, this.plugin);

@@ -1,6 +1,6 @@
 import { App, TFile, TFolder } from "obsidian";
 import TaskManagerPlugin from "../main";
-import { Task, UUID } from "../types";
+import { Task } from "../types";
 import {
 	createRandomUUID,
 	createYamlProperties,
@@ -9,18 +9,23 @@ import {
 	getTimestampUnixTime
 } from "../utils/utils";
 
+const DEFAULT_TAGS: string[] = ["tasks"]
+
+export type TaskBody = `${string}\n${string}`
+
 export interface CreateTaskData {
 	title: string;
 	tags: string[];
-	description: string;
-	body: string;
+	description: string | null;
+	body: string | null;
 	status: string;
 	priority: string;
+	linkedTasks: string[] | null;
 }
 
 export async function createTask(createTaskData: CreateTaskData, app: App, plugin: TaskManagerPlugin): Promise<TFile> {
-	const rootTaskFolder = await createFolderIfNoExists(app, plugin.settings.main.tasksFolder);
 	const currenFolderName = getCurrentDate();
+	const rootTaskFolder = await createFolderIfNoExists(app, plugin.settings.main.tasksFolder);
 	const currentDateFolder = await createFolderIfNoExists(app,
 		`${rootTaskFolder.path}/${currenFolderName}`
 	);
@@ -32,13 +37,11 @@ export async function createTask(createTaskData: CreateTaskData, app: App, plugi
 		status: createTaskData.status,
 		priority: createTaskData.priority,
 		tags: createTags(createTaskData.tags),
-		linkedTasks: createLinkedTasks([]),
+		linkedTasks: undefined,
 		dateCreated: getCurrentDateTime(),
 		dateModified: getCurrentDateTime()
 	};
-	const properties = createYamlProperties(task);
-	const fileData = `${properties}\n${createTaskData.body}`;
-
+	const fileData = createFileData(task, createTaskData)
 	return await createTaskFile(
 		getFileNameFromTemplate(task.title),
 		fileData,
@@ -64,9 +67,10 @@ function getFileNameFromTemplate(title: string): string {
 }
 
 function createTags(rawTags: string[]): string[] {
-	return rawTags.map(tag => `#${tag}`);
+	return [...DEFAULT_TAGS, ...rawTags]
+		.map(tag => `#${tag}`);
 }
 
-function createLinkedTasks(tasks: Task[]): UUID[] {
-	return tasks.map(value => value.id)
+function createFileData(task: Task, data: CreateTaskData): TaskBody {
+	return `${createYamlProperties(task)}\n${data.body || ""}`;
 }

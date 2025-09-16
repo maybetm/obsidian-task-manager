@@ -27,6 +27,6 @@ export function getCurrentDate(): string {
 	return format(new Date(), DATE_FORMAT)
 }
 
-export function createYamlProperties(taskData: object): string {
-	return `---\n${stringify(taskData).trim()}\n---`;
+export function createYamlProperties(object: object): string {
+	return `---\n${stringify(object, {nullStr: "~"}).trim()}\n---`;
 }
