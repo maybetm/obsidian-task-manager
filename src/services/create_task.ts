@@ -11,8 +11,6 @@ import {
 
 const DEFAULT_TAGS: string[] = ["tasks"]
 
-export type TaskBody = `${string}\n${string}`
-
 export interface CreateTaskData {
 	title: string;
 	tags: string[];
@@ -22,6 +20,9 @@ export interface CreateTaskData {
 	priority: string;
 	linkedTasks: string[] | null;
 }
+
+export type TaskBody = `${string}\n${string}`
+export type FileNameWithUnixTimePrefix = `${string} - ${string}.md`
 
 export async function createTask(createTaskData: CreateTaskData, app: App, plugin: TaskManagerPlugin): Promise<TFile> {
 	const currenFolderName = getCurrentDate();
@@ -58,11 +59,11 @@ async function createFolderIfNoExists(app: App, path: string): Promise<TFolder> 
 	return app.vault.getFolderByPath(path) as TFolder;
 }
 
-async function createTaskFile(title: string, data: string, folder: TFolder, app: App): Promise<TFile> {
-	return app.vault.create(`/${folder.path}/${title}`, data)
+async function createTaskFile(fileName: string, data: string, folder: TFolder, app: App): Promise<TFile> {
+	return app.vault.create(`/${folder.path}/${fileName}`, data)
 }
 
-function getFileNameFromTemplate(title: string): string {
+function getFileNameFromTemplate(title: string): FileNameWithUnixTimePrefix {
 	return `${getTimestampUnixTime()} - ${title}.md`;
 }
 
