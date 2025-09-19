@@ -13,7 +13,7 @@ interface ActionBarProps {
 
 export function ActionBar(props: ActionBarProps): ReactElement {
 	return (
-		<div className="action-bar" style={{display: "flex"}}>
+		<div className="action-bar" style={{ display: "flex" }}>
 			<ExpandComponent {...props.expandComponentProps} />
 			<LineSeparator/>
 			<Statuses {...props.statusesProps}/>
@@ -24,7 +24,7 @@ export function ActionBar(props: ActionBarProps): ReactElement {
 
 export function LineSeparator(): ReactElement {
 	return (
-		<div className="quick-actions-icon-separator" style={{alignContent: "center"}}>
+		<div className="quick-actions-icon-separator" style={{ alignContent: "center" }}>
 				<span className="form-icon-menu-separator" style={{
 					display: "inline-block",
 					borderLeft: "1px solid rgb(204, 204, 204)",

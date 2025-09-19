@@ -10,10 +10,10 @@ export interface StatusSettingItem {
 }
 
 export const DEFAULT_STATUSES_SETTINGS: StatusSettingItem[] = [
-	{value: "none", label: "None", color: "#CCCCCC", isCompleted: false},
-	{value: "open", label: "Open", color: "#808080", isCompleted: false},
-	{value: "in-progress", label: "In progress", color: "#0066CC", isCompleted: false},
-	{value: "closed", label: "Closed", color: "#00AA00", isCompleted: true}
+	{ value: "none", label: "None", color: "#CCCCCC", isCompleted: false },
+	{ value: "open", label: "Open", color: "#808080", isCompleted: false },
+	{ value: "in-progress", label: "In progress", color: "#0066CC", isCompleted: false },
+	{ value: "closed", label: "Closed", color: "#00AA00", isCompleted: true }
 ]
 
 const columnHelper: ColumnHelper<StatusSettingItem> = createColumnHelper<StatusSettingItem>();

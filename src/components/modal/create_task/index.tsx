@@ -4,7 +4,9 @@ import { createRoot, Root } from "react-dom/client";
 import { CreateTaskForm } from "./form";
 import { AppProvider } from "../../../AppContext";
 import { UIEvent } from "react";
-import { createTask, CreateTaskData } from "../../../services/create_task";
+import { createTask } from "../../../services/createtask/create_task";
+import { validateSchema } from "../../../services/validator";
+import { CREATE_TASK_VALIDATION_SCHEMA, CreateTaskData } from "../../../services/createtask/type";
 
 export default class CreateTaskModal extends Modal {
 	private readonly plugin: TaskManagerPlugin;
@@ -25,7 +27,7 @@ export default class CreateTaskModal extends Modal {
 	}
 
 	onOpen() {
-		const {contentEl} = this;
+		const { contentEl } = this;
 		contentEl.empty();
 
 		this.setTitle('Create task');
@@ -63,6 +65,10 @@ export default class CreateTaskModal extends Modal {
 			priority: this.currentPriorityValue,
 			linkedTasks: this.linkedTasks
 		};
+
+		if (!validateSchema(CREATE_TASK_VALIDATION_SCHEMA, createTaskData).isValid) {
+			return;
+		}
 
 		const createdFile = await createTask(createTaskData, this.app, this.plugin);
 		if (this.containerEl.isConnected) {

@@ -12,7 +12,7 @@ export function ExpandedForm(props: ExpandedProps): ReactElement {
 			<textarea spellCheck="false"
 				placeholder="Enter task description..."
 				className="form-textarea"
-				style={{width: "100%"}}
+				style={{ width: "100%" }}
 				onChange={event => props.onChangeDescription(event.currentTarget.value)}
 			/>
 		</div>
@@ -22,7 +22,7 @@ export function ExpandedForm(props: ExpandedProps): ReactElement {
 			<textarea spellCheck="false"
 				placeholder="Enter markdown, obsidian like task body..."
 				className="form-textarea"
-				style={{width: "100%"}}
+				style={{ width: "100%" }}
 				onChange={event => props.onChangeTaskBody(event.currentTarget.value)}
 			/>
 		</div>

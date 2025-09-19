@@ -11,10 +11,10 @@ export interface PrioritySetting {
 }
 
 export const DEFAULT_PRIORITIES_SETTINGS: PrioritySetting[] = [
-	{value: "high", label: "High", color: "#C23636", weight: 3},
-	{value: "normal", label: "Normal", color: "#FDA900", weight: 2},
-	{value: "low", label: "Low", color: "#00A900", weight: 1},
-	{value: "none", label: "None", color: "#E8E7E7", weight: 0}
+	{ value: "high", label: "High", color: "#C23636", weight: 3 },
+	{ value: "normal", label: "Normal", color: "#FDA900", weight: 2 },
+	{ value: "low", label: "Low", color: "#00A900", weight: 1 },
+	{ value: "none", label: "None", color: "#E8E7E7", weight: 0 }
 ]
 
 const columnHelper: ColumnHelper<PrioritySetting> = createColumnHelper<PrioritySetting>();

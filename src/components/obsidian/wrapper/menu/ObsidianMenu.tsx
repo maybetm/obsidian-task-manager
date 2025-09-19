@@ -9,7 +9,7 @@ export interface ObsidianMenuProps<Data> {
 	renderItem: (menuItem: MenuItem, dataItem: Data) => ReactElement
 }
 
-export function openObsidianMenu<Data>(props: ObsidianMenuProps<Data>): void {
+export function ObsidianMenu<Data>(props: ObsidianMenuProps<Data>): void {
 	const menu = new Menu()
 	props.dataItems.forEach((dataItem) => {
 		menu.addItem(menuItem => {

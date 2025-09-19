@@ -10,7 +10,7 @@ export interface StatusesProps {
 }
 
 export function Statuses(props: StatusesProps): ReactElement {
-	const {plugin} = useApp();
+	const { plugin } = useApp();
 	const [selectedItem, setSelectedItem] = useState(props.selectedItem);
 
 	return <>

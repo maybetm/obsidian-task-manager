@@ -1,28 +1,16 @@
 import { App, TFile, TFolder } from "obsidian";
-import TaskManagerPlugin from "../main";
-import { Task } from "../types";
+import TaskManagerPlugin from "../../main";
+import { Task } from "../../types";
 import {
 	createRandomUUID,
 	createYamlProperties,
 	getCurrentDate,
 	getCurrentDateTime,
 	getTimestampUnixTime
-} from "../utils/utils";
+} from "../../utils/utils";
+import { CreateTaskData, FileNameWithUnixTimePrefix, TaskBody } from "./type";
 
 const DEFAULT_TAGS: string[] = ["tasks"]
-
-export interface CreateTaskData {
-	title: string;
-	tags: string[];
-	description: string | null;
-	body: string | null;
-	status: string;
-	priority: string;
-	linkedTasks: string[] | null;
-}
-
-export type TaskBody = `${string}\n${string}`
-export type FileNameWithUnixTimePrefix = `${string} - ${string}.md`
 
 export async function createTask(createTaskData: CreateTaskData, app: App, plugin: TaskManagerPlugin): Promise<TFile> {
 	const currenFolderName = getCurrentDate();

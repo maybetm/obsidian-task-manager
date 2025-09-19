@@ -1,6 +1,6 @@
 import { ReactElement, UIEvent, useState } from "react";
 import { coloredIcon, useCallbackOnKetPressed } from "./utils";
-import { openObsidianMenu } from "./ObsidianMenu";
+import { ObsidianMenu } from "./ObsidianMenu";
 
 export const selectedSymbol = "✓";
 
@@ -30,8 +30,8 @@ export function Menu(props: MenuProps): ReactElement {
 		event.stopPropagation();
 		setIsOpen(!isOpen);
 
-		openObsidianMenu({
-			position: (({bottom, left}) => ({
+		ObsidianMenu({
+			position: (({ bottom, left }) => ({
 				y: bottom + 4,
 				x: left
 			}))(event.currentTarget.getBoundingClientRect()),
@@ -66,7 +66,7 @@ function MenuItem(props: {
 	menuItem: MenuItemProps;
 }): ReactElement {
 	return <>
-		<div style={{cursor: "pointer", display: "flex"}}>
+		<div style={{ cursor: "pointer", display: "flex" }}>
 			<div className="menu-item-icon">{props.icon}</div>
 			<div className="menu-item-title">
 				{(props.selectedItem.value === props.menuItem.value) && selectedSymbol} {props.menuItem.label}

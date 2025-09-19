@@ -27,7 +27,7 @@ export function CreateTaskForm(props: CreateTaskFormProps): ReactElement {
 				<input type="text" spellCheck="false"
 					placeholder="Enter task title..."
 					className="form-input"
-					style={{width: '100%'}}
+					style={{ width: '100%' }}
 					onChange={props.titleOnchange}
 					autoFocus={true}
 				/>
