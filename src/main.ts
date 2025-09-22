@@ -1,6 +1,6 @@
 import { Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, TaskManagerSettings, TaskManagerSettingsTab } from "./settings/settings";
-import CreateTaskModal from "./components/modal/create_task";
+import CreateTaskModal from "./components/modal/createtask";
 
 export default class TaskManagerPlugin extends Plugin {
 	settings: TaskManagerSettings

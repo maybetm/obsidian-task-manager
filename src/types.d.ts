@@ -10,6 +10,11 @@ export interface Task {
 	linkedTasks?: UUID[] | null;
 	completedTime?: Date; // Date (YYYY-MM-DD) when task was marked as done
 	dateCreated: string; // Creation date (ISO timestamp)
-	dateModified: string // Last modification date (ISO timestamp)
+	dateModified: string; // Last modification date (ISO timestamp)
+	deadline?: string | null;
 }
 
+export interface DateTime {
+	date: string;
+	time: string;
+}

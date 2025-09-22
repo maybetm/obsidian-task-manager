@@ -28,7 +28,8 @@ export async function createTask(createTaskData: CreateTaskData, app: App, plugi
 		tags: createTags(createTaskData.tags),
 		linkedTasks: undefined,
 		dateCreated: getCurrentDateTime(),
-		dateModified: getCurrentDateTime()
+		dateModified: getCurrentDateTime(),
+		deadline: createTaskData.deadline?.toString(),
 	};
 	const fileData = createFileData(task, createTaskData)
 	return await createTaskFile(

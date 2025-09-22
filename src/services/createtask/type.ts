@@ -1,5 +1,7 @@
 import * as Joi from "joi";
 import { ObjectSchema } from "joi";
+import { DateTime } from "../../types";
+import { DateTimeBase } from "../../types/DateTimeBase";
 
 export interface CreateTaskData {
 	title: string;
@@ -9,6 +11,7 @@ export interface CreateTaskData {
 	status: string;
 	priority: string;
 	linkedTasks: string[] | null;
+	deadline: DateTimeBase | null;
 }
 
 export type TaskBody = `${string}\n${string}`
@@ -22,4 +25,5 @@ export const CREATE_TASK_VALIDATION_SCHEMA: ObjectSchema<CreateTaskData> = Joi.o
 	tags: Joi.array(),
 	body: Joi.string(),
 	linkedTasks: Joi.array(),
+	deadline: Joi.any<DateTime>(),
 })

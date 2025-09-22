@@ -1,5 +1,5 @@
 import { GetContentComponent } from "../types";
-import { InputComponent } from "../../components/Input";
+import { InputComponent } from "../../components/input/InputText";
 import * as React from "react";
 
 export interface MainSettings {

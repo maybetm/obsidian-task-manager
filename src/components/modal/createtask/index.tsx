@@ -4,9 +4,11 @@ import { createRoot, Root } from "react-dom/client";
 import { CreateTaskForm } from "./form";
 import { AppProvider } from "../../../AppContext";
 import { UIEvent } from "react";
-import { createTask } from "../../../services/createtask/create_task";
-import { validateSchema } from "../../../services/validator";
+import { createTask } from "../../../services/createtask/CreateTask";
+import { validateSchema } from "../../../services/Validator";
 import { CREATE_TASK_VALIDATION_SCHEMA, CreateTaskData } from "../../../services/createtask/type";
+import { DateTime } from "../../../types";
+import { DateTimeBase } from "../../../types/DateTimeBase";
 
 export default class CreateTaskModal extends Modal {
 	private readonly plugin: TaskManagerPlugin;
@@ -18,6 +20,7 @@ export default class CreateTaskModal extends Modal {
 	private description: string | null;
 	private currentStatusValue = "open";
 	private currentPriorityValue = "normal";
+	private deadlineDateTime: DateTime = { date: "", time: "" };
 
 	private rootContainer: Root;
 
@@ -41,7 +44,7 @@ export default class CreateTaskModal extends Modal {
 					}}
 					statusesProps={{
 						selectedItem: this.currentStatusValue,
-						onItemSelect: value => this.currentPriorityValue = value
+						onItemSelect: value => this.currentStatusValue = value
 					}}
 					expandedProps={{
 						onChangeDescription: value => this.description = value,
@@ -50,6 +53,10 @@ export default class CreateTaskModal extends Modal {
 					onSave={eventButton => this.onSave(eventButton)}
 					plugin={this.plugin}
 					titleOnchange={e => this.title = e.currentTarget.value}
+					deadlineSelectorProps={{
+						dateTime: this.deadlineDateTime,
+						onDeadlineChange: dateTime => this.deadlineDateTime = dateTime,
+					}}
 				/>
 			</AppProvider>
 		)
@@ -63,7 +70,8 @@ export default class CreateTaskModal extends Modal {
 			description: this.description,
 			status: this.currentStatusValue,
 			priority: this.currentPriorityValue,
-			linkedTasks: this.linkedTasks
+			linkedTasks: this.linkedTasks,
+			deadline: new DateTimeBase(this.deadlineDateTime),
 		};
 
 		if (!validateSchema(CREATE_TASK_VALIDATION_SCHEMA, createTaskData).isValid) {
@@ -75,6 +83,10 @@ export default class CreateTaskModal extends Modal {
 			this.close();
 			await this.app.workspace.getLeaf(false).openFile(createdFile)
 		}
+	}
+
+	onClose() {
+		this.rootContainer.unmount()
 	}
 
 }
