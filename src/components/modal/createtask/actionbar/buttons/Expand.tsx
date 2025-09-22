@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Cloud, CloudFog } from "lucide-react";
-import { useCallbackOnKetPressed } from "../../../../obsidian/wrapper/menu/utils";
+import { useCallbackOnKetPressed } from "../../../../utils";
 
 export interface ExpandComponentProps {
 	onClick: () => void;

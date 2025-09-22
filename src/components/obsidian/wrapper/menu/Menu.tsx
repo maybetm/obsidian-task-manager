@@ -1,5 +1,5 @@
 import { ReactElement, UIEvent, useState } from "react";
-import { coloredIcon, useCallbackOnKetPressed } from "./utils";
+import { coloredIcon, useCallbackOnKetPressed } from "../../../utils";
 import { ObsidianMenu } from "./ObsidianMenu";
 
 export const selectedSymbol = "✓";
@@ -53,7 +53,7 @@ export function Menu(props: MenuProps): ReactElement {
 		<div className="quick-actions-icon"
 			tabIndex={0} role="button"
 			onClick={handleTriggerClick}
-			onKeyDown={useCallbackOnKetPressed(event => handleTriggerClick(event))}
+			onKeyDown={useCallbackOnKetPressed<HTMLDivElement>(event => handleTriggerClick(event))}
 		>
 			<span>{coloredIcon(props.icon, selectedItem.color)}</span>
 		</div>

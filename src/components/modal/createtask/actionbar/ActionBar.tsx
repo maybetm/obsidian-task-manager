@@ -3,12 +3,14 @@ import TaskManagerPlugin from "../../../../main";
 import { Priorities, PrioritiesProps } from "./buttons/Priorities";
 import { Statuses, StatusesProps } from "./buttons/Statuses";
 import { ExpandComponent, ExpandComponentProps } from "./buttons/Expand";
+import { DeadlineSelector, DeadlineSelectorProps } from "./buttons/deadline/DeadlineSelector";
 
 interface ActionBarProps {
 	plugin: TaskManagerPlugin;
 	expandComponentProps: ExpandComponentProps;
 	statusesProps: StatusesProps;
 	prioritiesProps: PrioritiesProps;
+	deadlineSelectorProps: DeadlineSelectorProps;
 }
 
 export function ActionBar(props: ActionBarProps): ReactElement {
@@ -18,6 +20,7 @@ export function ActionBar(props: ActionBarProps): ReactElement {
 			<LineSeparator/>
 			<Statuses {...props.statusesProps}/>
 			<Priorities {...props.prioritiesProps}/>
+			<DeadlineSelector {...props.deadlineSelectorProps}/>
 		</div>
 	)
 }

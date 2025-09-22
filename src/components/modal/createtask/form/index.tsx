@@ -4,6 +4,7 @@ import { ActionBar } from "../actionbar/ActionBar";
 import { ExpandedForm, ExpandedProps } from "./Expanded";
 import { StatusesProps } from "../actionbar/buttons/Statuses";
 import { PrioritiesProps } from "../actionbar/buttons/Priorities";
+import { DeadlineSelectorProps } from "../actionbar/buttons/deadline/DeadlineSelector";
 
 interface CreateTaskFormProps {
 	plugin: TaskManagerPlugin;
@@ -11,7 +12,8 @@ interface CreateTaskFormProps {
 	onSave: (eventButton: UIEvent<HTMLButtonElement>) => void;
 	statusesProps: StatusesProps;
 	prioritiesProps: PrioritiesProps;
-	expandedProps: ExpandedProps
+	expandedProps: ExpandedProps;
+	deadlineSelectorProps: DeadlineSelectorProps;
 }
 
 export function CreateTaskForm(props: CreateTaskFormProps): ReactElement {
@@ -41,11 +43,12 @@ export function CreateTaskForm(props: CreateTaskFormProps): ReactElement {
 				}}
 				statusesProps={props.statusesProps}
 				prioritiesProps={props.prioritiesProps}
+				deadlineSelectorProps={props.deadlineSelectorProps}
 			/>
 			{isExpanded && <ExpandedForm {...props.expandedProps} />}
 
 			<div className="form-actions">
-				<button className="mod-cta" onClick={props.onSave}>Save</button>
+				<button className="mod-cta task-manager-button" onClick={props.onSave}>Save</button>
 			</div>
 		</div>
 	</>;
